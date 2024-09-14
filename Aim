@@ -1,2 +1,0 @@
-We wish to turn some standard/generic library calls for a linux-user on the emulator to native calls i.e. native versions of the code for faster and more efficient execution of the program
- 
