@@ -25,7 +25,7 @@ Need to make native libraries in qemu for linux-users and test that the wrapping
 ## Requirements:
 Need to understand where exactly will the native versions of the code be need to be present so that some methods can be thoughtout for the compatible linking or bridging between native versions of the generic library calls and the emulated part of these calls. 
 
-
+## Links which helped me while studying about Qemu:
 https://github.com/airbus-seclab/qemu_blog
 
 https://gist.github.com/royrishi06/c87331d01e60a76b5008fd66fabea69e#file-qemu_gsoc
