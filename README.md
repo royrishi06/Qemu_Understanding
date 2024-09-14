@@ -25,6 +25,35 @@ Need to make native libraries in qemu for linux-users and test that the wrapping
 ## Requirements:
 Need to understand where exactly will the native versions of the code be need to be present so that some methods can be thoughtout for the compatible linking or bridging between native versions of the generic library calls and the emulated part of these calls. 
 
+## Better Understanding of the Requirements For the Solution:
+The translator would need to be able to identify we have just jumped
+into a function we could intercept. For this to work we would need to
+scan the symbols of each mapped library and identify entry points and
+their names.
+
+The translator already does some of this (see loader_exec and the elf
+code) so we can dump symbol names for some of the guest code when
+debugging.
+
+So I would envision a rough outline would be:
+
+  - on entry to translator_loop identify if pc == start of library
+    function
+  - check if translator front end supports library swizzling
+  - instead of entering while(true) call ops->do_magic_swizzle()
+  - the front end would then:
+    - extract the guest ABI into temps
+    - take care to adjust addresses w.r.t guest_base
+    - call a generic helper that call the host equivalent function
+    - munge the results back to the guest ABI
+    - handle the return from function
+    - end the TB
+   
+We should skip the bits about KVM and other virtualisation accelerators.
+For the purposes of this problem statement we are concentrating on *-user mode
+emulation so even where guest ISA = host ISA we still will translate
+instructions through the JIT.
+
 ## Links which helped me while studying about Qemu:
 https://github.com/airbus-seclab/qemu_blog
 
